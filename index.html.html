@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A personal portfolio website showcasing education, skills, projects, and contact information.">
+  <title>Suyash Tiwari — Personal Portfolio</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --site-primary: #1D6B52;
+      --site-on-primary: #FFFFFF;
+      --site-secondary: #D7F36A;
+      --site-on-secondary: #18241E;
+      --site-background: #F4F5EF;
+      --site-on-background: #17251F;
+      --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --site-font-heading: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --site-heading-scale: 1;
+      --site-spacing-scale: 1;
+      --site-radius-scale: 1;
+      --site-decoration-opacity: 1;
+      --accent-soft: #E7EDDF;
+      --line: #DDE3D9;
+      --muted: #66736B;
+      --surface: #FFFFFF;
+      --surface-alt: #EFF2E9;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+    body {
+      margin: 0;
+      background: light-dark(var(--site-background), #101714);
+      color: light-dark(var(--site-on-background), #EAF0E9);
+      font-family: var(--site-font-body);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .app-root {
+      position: relative;
+      min-height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 0;
+      background-color: light-dark(var(--site-background), #101714);
+      isolation: isolate;
+    }
+    .decor-orb {
+      position: absolute;
+      z-index: -1;
+      pointer-events: none;
+      width: 26rem;
+      height: 26rem;
+      border-radius: 50%;
+      background: radial-gradient(circle, light-dark(rgba(215,243,106,.45), rgba(215,243,106,.09)), transparent 68%);
+      opacity: var(--site-decoration-opacity);
+      filter: blur(2px);
+    }
+    .orb-one { top: 3rem; right: -10rem; }
+    .orb-two { top: 54rem; left: -15rem; width: 32rem; height: 32rem; }
+    .container { width: min(1120px, calc(100% - 44px)); margin: 0 auto; }
+    .site-header {
+      position: sticky;
+      z-index: 20;
+      top: 0;
+      border-bottom: 1px solid light-dark(rgba(221,227,217,.9), rgba(255,255,255,.09));
+      background: light-dark(rgba(244,245,239,.88), rgba(16,23,20,.88));
+      backdrop-filter: blur(18px);
+    }
+    .nav-wrap { display: flex; align-items: center; justify-content: space-between; min-height: 76px; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; font-weight: 800; letter-spacing: -.04em; }
+    .brand-mark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 11px; background: var(--site-primary); color: var(--site-on-primary); font-size: 15px; }
+    .brand-name { font-size: 1rem; }
+    .nav-links { display: flex; align-items: center; gap: 30px; color: light-dark(#58665E, #A7B4AA); font-size: .91rem; font-weight: 600; }
+    .nav-links a { transition: color .18s ease; }
+    .nav-links a:hover, .nav-links a:focus-visible { color: var(--site-primary); }
+    .nav-cta, .button-primary {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      border: 1px solid var(--site-primary); border-radius: calc(12px * var(--site-radius-scale));
+      padding: calc(11px * var(--site-spacing-scale)) calc(17px * var(--site-spacing-scale));
+      background: var(--site-primary); color: var(--site-on-primary); font-weight: 700; font-size: .92rem;
+      cursor: pointer; transition: transform .18s ease, filter .18s ease;
+    }
+    .nav-cta:hover, .button-primary:hover { transform: translateY(-2px); filter: brightness(1.06); }
+    .menu-toggle { display: none; background: transparent; border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; color: inherit; cursor: pointer; }
+
+    .hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 60px; align-items: center; padding: calc(94px * var(--site-spacing-scale)) 0 calc(98px * var(--site-spacing-scale)); min-height: 580px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: var(--site-primary); font-size: .77rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 800; }
+    .eyebrow-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--site-primary); box-shadow: 0 0 0 5px light-dark(rgba(29,107,82,.12), rgba(110,220,172,.1)); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { font-family: var(--site-font-heading); }
+    h1 { font-size: calc(clamp(3rem, 5.6vw, 5rem) * var(--site-heading-scale)); letter-spacing: -.075em; line-height: 1.02; margin: 23px 0 24px; max-width: 690px; }
+    .highlight { color: var(--site-primary); position: relative; white-space: nowrap; }
+    .hero-copy { color: light-dark(#58665E, #A9B6AC); font-size: 1.08rem; max-width: 580px; line-height: 1.8; margin-bottom: 30px; }
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+    .button-secondary { display: inline-flex; align-items: center; justify-content: center; gap: 9px; border: 1px solid light-dark(#C8D1C6, #3A4940); border-radius: calc(12px * var(--site-radius-scale)); padding: calc(11px * var(--site-spacing-scale)) calc(17px * var(--site-spacing-scale)); font-weight: 700; font-size: .92rem; transition: background .18s ease, transform .18s ease; }
+    .button-secondary:hover { background: light-dark(#E8ECE2, #1A2820); transform: translateY(-2px); }
+    .micro-note { display: flex; align-items: center; gap: 9px; margin-top: 34px; color: light-dark(#748077, #86968A); font-size: .84rem; }
+    .micro-note svg { color: var(--site-primary); flex-shrink: 0; }
+    .hero-visual { position: relative; justify-self: end; width: min(100%, 400px); }
+    .portrait-frame { position: relative; padding: 16px; background: light-dark(#FFFFFF, #1A2520); border: 1px solid light-dark(#E1E6DB, #2B3A30); border-radius: calc(30px * var(--site-radius-scale)); box-shadow: 0 28px 70px light-dark(rgba(27,53,39,.10), rgba(0,0,0,.26)); transform: rotate(2deg); }
+    .portrait-frame img { display: block; width: 100%; aspect-ratio: 4/4.3; object-fit: cover; border-radius: calc(20px * var(--site-radius-scale)); background: #DDE7D4; }
+    .floating-card { position: absolute; display: flex; align-items: center; gap: 11px; padding: 13px 16px; border-radius: calc(15px * var(--site-radius-scale)); background: light-dark(#FFFFFF, #202C25); border: 1px solid light-dark(#E2E8DE, #344339); box-shadow: 0 14px 30px rgba(0,0,0,.09); transform: rotate(-2deg); }
+    .floating-card.top { top: 39px; left: -40px; }
+    .floating-card.bottom { bottom: 34px; right: -31px; transform: rotate(2deg); }
+    .float-icon { display: grid; place-items: center; height: 39px; width: 39px; border-radius: 12px; background: var(--site-secondary); color: var(--site-on-secondary); }
+    .float-label { color: light-dark(#768177, #9EACA0); font-size: .72rem; line-height: 1.3; }
+    .float-value { font-size: .9rem; font-weight: 800; line-height: 1.4; }
+
+    .stats-strip { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: light-dark(rgba(255,255,255,.53), rgba(255,255,255,.025)); }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); padding: 26px 0; }
+    .stat { text-align: center; padding: 0 20px; border-right: 1px solid var(--line); }
+    .stat:last-child { border-right: 0; }
+    .stat-value { color: var(--site-primary); font-size: 1.45rem; font-weight: 850; letter-spacing: -.04em; }
+    .stat-label { color: light-dark(#718076, #A0ADA2); font-size: .82rem; }
+
+    section.content-section { padding: calc(94px * var(--site-spacing-scale)) 0; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 28px; margin-bottom: 39px; }
+    .section-kicker { margin-bottom: 10px; font-size: .75rem; color: var(--site-primary); letter-spacing: .16em; font-weight: 850; text-transform: uppercase; }
+    h2 { font-size: calc(clamp(2rem, 3.7vw, 3.15rem) * var(--site-heading-scale)); letter-spacing: -.06em; line-height: 1.1; margin-bottom: 0; }
+    .section-description { max-width: 420px; margin: 0; color: light-dark(#68766C, #A3AEA5); font-size: .96rem; line-height: 1.8; }
+    .about-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 24px; }
+    .about-note { padding: 31px; border-radius: calc(22px * var(--site-radius-scale)); background: var(--site-primary); color: var(--site-on-primary); position: relative; overflow: hidden; }
+    .about-note::after { content: ""; position: absolute; width: 210px; height: 210px; border: 1px solid rgba(255,255,255,.24); border-radius: 50%; right: -90px; bottom: -110px; opacity: var(--site-decoration-opacity); }
+    .quote-mark { font-size: 3rem; line-height: 1; color: var(--site-secondary); margin-bottom: 16px; }
+    .about-note h3 { font-size: 1.3rem; margin-bottom: 13px; letter-spacing: -.03em; }
+    .about-note p { margin-bottom: 0; color: rgba(255,255,255,.82); font-size: .94rem; line-height: 1.85; }
+    .about-details { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+    .detail-card { border: 1px solid var(--line); border-radius: calc(18px * var(--site-radius-scale)); padding: 24px; background: light-dark(rgba(255,255,255,.7), rgba(255,255,255,.035)); }
+    .detail-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 13px; background: light-dark(#E6EDDF, #26362A); color: var(--site-primary); margin-bottom: 19px; }
+    .detail-card h3 { font-size: 1rem; margin-bottom: 7px; }
+    .detail-card p { font-size: .85rem; margin: 0; color: light-dark(#718076, #9BA89D); line-height: 1.65; }
+
+    .skills-section { background: light-dark(#EAEDE4, #151F19); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .skill-card { display: flex; align-items: center; gap: 13px; background: light-dark(#F8F9F4, #1C2820); border: 1px solid light-dark(#DDE3D8, #2B392F); border-radius: calc(15px * var(--site-radius-scale)); padding: 17px 18px; transition: transform .18s ease, border-color .18s ease; }
+    .skill-card:hover { transform: translateY(-3px); border-color: var(--site-primary); }
+    .skill-mark { width: 37px; height: 37px; display: grid; place-items: center; flex-shrink: 0; border-radius: 11px; background: var(--accent-soft); color: #24563F; font-size: .76rem; font-weight: 900; }
+    .skill-name { font-size: .9rem; font-weight: 750; }
+    .skill-level { font-size: .72rem; color: light-dark(#718076, #9BA89D); }
+
+    .education-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .education-card { display: grid; grid-template-columns: 50px 1fr auto; align-items: start; gap: 17px; padding: 25px; border: 1px solid var(--line); border-radius: calc(18px * var(--site-radius-scale)); background: light-dark(rgba(255,255,255,.7), rgba(255,255,255,.035)); }
+    .education-icon { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: var(--site-secondary); color: var(--site-on-secondary); }
+    .education-card h3 { margin: 2px 0 7px; font-size: 1.02rem; }
+    .education-card p { margin: 0; color: light-dark(#718076, #A1ADA3); font-size: .85rem; }
+    .year-pill { padding: 5px 9px; background: light-dark(#EDF1E8, #263228); border-radius: 99px; color: light-dark(#56645A, #B1BEB3); white-space: nowrap; font-size: .72rem; font-weight: 750; }
+
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 19px; }
+    .project-card { overflow: hidden; border: 1px solid var(--line); border-radius: calc(21px * var(--site-radius-scale)); background: light-dark(#FFFFFF, #18231C); transition: transform .2s ease, box-shadow .2s ease; }
+    .project-card:hover { transform: translateY(-5px); box-shadow: 0 16px 36px light-dark(rgba(20,40,26,.08), rgba(0,0,0,.18)); }
+    .project-art { min-height: 174px; padding: 22px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; background: var(--project-bg, #DDE8D5); }
+    .project-art::before, .project-art::after { content: ""; position: absolute; border-radius: 50%; border: 1px solid rgba(26,60,42,.18); width: 230px; height: 230px; opacity: var(--site-decoration-opacity); }
+    .project-art::after { width: 170px; height: 170px; }
+    .mock-window { z-index: 1; width: 76%; background: #FCFDF8; border: 1px solid rgba(39,64,44,.12); border-radius: 12px; padding: 12px; box-shadow: 0 13px 24px rgba(27,52,34,.12); transform: rotate(-3deg); }
+    .mock-top { display: flex; gap: 4px; padding-bottom: 9px; border-bottom: 1px solid #E8EDE3; }
+    .mock-top span { width: 5px; height: 5px; background: #B8C9B4; border-radius: 50%; }
+    .mock-line { height: 7px; width: 65%; border-radius: 8px; background: #DCE5D6; margin-top: 11px; }
+    .mock-line.short { width: 42%; margin-top: 7px; }
+    .mock-blocks { display: flex; gap: 6px; margin-top: 12px; }
+    .mock-blocks span { display: block; height: 36px; flex: 1; border-radius: 5px; background: #E6EEDA; }
+    .mock-blocks span:nth-child(2) { background: #D8F078; }
+    .project-art.two { --project-bg: #F0E6CF; }
+    .project-art.three { --project-bg: #D8E8E7; }
+    .project-art.two .mock-window { transform: rotate(3deg); }
+    .project-art.three .mock-window { transform: rotate(-1deg); }
+    .project-content { padding: 23px; }
+    .project-type { font-size: .71rem; color: var(--site-primary); letter-spacing: .1em; text-transform: uppercase; font-weight: 850; }
+    .project-content h3 { font-size: 1.15rem; letter-spacing: -.03em; margin: 9px 0 10px; }
+    .project-content p { color: light-dark(#6F7C72, #A0ADA2); font-size: .86rem; min-height: 67px; line-height: 1.75; margin-bottom: 18px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; }
+    .tag { border-radius: 7px; background: light-dark(#EFF3EA, #263329); color: light-dark(#566B5C, #BDCCBF); font-size: .69rem; font-weight: 750; padding: 5px 8px; }
+
+    .contact-wrap { display: grid; grid-template-columns: .8fr 1.2fr; gap: 60px; align-items: start; }
+    .contact-copy p { color: light-dark(#69776D, #A3AEA5); line-height: 1.85; max-width: 390px; }
+    .contact-detail { display: flex; align-items: center; gap: 13px; padding: 13px 0; color: light-dark(#4F6255, #BAC7BC); font-size: .9rem; }
+    .contact-detail .detail-icon { margin: 0; width: 40px; height: 40px; }
+    .contact-form { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; border: 1px solid var(--line); border-radius: calc(22px * var(--site-radius-scale)); padding: 27px; background: light-dark(#FFFFFF, #18231C); }
+    .field { display: flex; flex-direction: column; gap: 7px; }
+    .field.full { grid-column: 1 / -1; }
+    .field label { font-size: .8rem; font-weight: 750; }
+    .field input, .field textarea { width: 100%; border: 1px solid light-dark(#DCE3D9, #38473C); border-radius: 10px; background: light-dark(#F8F9F5, #111A14); color: inherit; padding: 12px 13px; outline: none; transition: border-color .18s ease, box-shadow .18s ease; }
+    .field input:focus, .field textarea:focus { border-color: var(--site-primary); box-shadow: 0 0 0 3px light-dark(rgba(29,107,82,.12), rgba(100,208,151,.12)); }
+    .field textarea { min-height: 122px; resize: vertical; }
+    .form-footnote { grid-column: 1 / -1; margin: 0; font-size: .76rem; color: light-dark(#78847B, #9BA79D); }
+    .form-status { display: none; grid-column: 1 / -1; padding: 11px 13px; border-radius: 10px; color: light-dark(#1C5A3E, #C5F3D0); background: light-dark(#E3F1E3, #1D3827); font-size: .84rem; }
+    .form-status.visible { display: block; }
+    footer { border-top: 1px solid var(--line); padding: 24px 0; }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 18px; color: light-dark(#758177, #96A398); font-size: .8rem; }
+    .footer-links { display: flex; gap: 18px; }
+    .footer-links a:hover { color: var(--site-primary); }
+
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr .75fr; gap: 32px; padding: 74px 0; }
+      .hero-visual { width: 100%; max-width: 330px; }
+      .floating-card.top { left: -20px; }
+      .floating-card.bottom { right: -15px; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .projects-grid { grid-template-columns: repeat(2, 1fr); }
+      .project-card:last-child { display: none; }
+      .contact-wrap { gap: 35px; }
+      .section-head { align-items: start; flex-direction: column; gap: 14px; }
+    }
+    @media (max-width: 680px) {
+      .container { width: min(100% - 32px, 520px); }
+      .nav-wrap { min-height: 68px; }
+      .menu-toggle { display: inline-flex; align-items: center; gap: 7px; }
+      .nav-cta { display: none; }
+      .nav-links { display: none; position: absolute; top: 68px; left: 0; right: 0; padding: 14px 22px 20px; background: light-dark(#F8F9F4, #121B15); border-bottom: 1px solid var(--line); flex-direction: column; align-items: stretch; gap: 0; }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 12px 0; border-bottom: 1px solid var(--line); }
+      .nav-links a:last-child { border-bottom: 0; }
+      .hero { display: flex; flex-direction: column; align-items: stretch; padding: 61px 0 67px; gap: 56px; }
+      h1 { font-size: calc(clamp(2.8rem, 13vw, 4.2rem) * var(--site-heading-scale)); margin: 20px 0; }
+      .hero-copy { font-size: 1rem; }
+      .hero-visual { width: 82%; max-width: 320px; align-self: center; margin: 0 auto; }
+      .floating-card.top { left: -24px; top: 28px; }
+      .floating-card.bottom { right: -22px; bottom: 23px; }
+      .float-value { font-size: .81rem; }
+      .float-label { font-size: .67rem; }
+      .stats { padding: 19px 0; }
+      .stat { padding: 0 7px; }
+      .stat-value { font-size: 1.2rem; }
+      .stat-label { font-size: .69rem; }
+      section.content-section { padding: 67px 0; }
+      .about-grid, .education-grid, .contact-wrap { grid-template-columns: 1fr; }
+      .about-details { grid-template-columns: 1fr 1fr; }
+      .detail-card { padding: 19px; }
+      .skills-grid { gap: 10px; }
+      .skill-card { padding: 12px; gap: 9px; }
+      .skill-mark { width: 32px; height: 32px; font-size: .7rem; }
+      .skill-name { font-size: .81rem; }
+      .skill-level { font-size: .67rem; }
+      .education-card { grid-template-columns: 45px 1fr; padding: 20px; gap: 13px; }
+      .education-icon { width: 43px; height: 43px; }
+      .year-pill { grid-column: 2; justify-self: start; margin-top: -3px; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card:last-child { display: block; }
+      .project-content p { min-height: 0; }
+      .contact-wrap { gap: 25px; }
+      .contact-form { padding: 18px; grid-template-columns: 1fr; }
+      .field.full, .form-footnote, .form-status { grid-column: 1; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-root" id="top">
+    <div class="decor-orb orb-one" aria-hidden="true"></div>
+    <div class="decor-orb orb-two" aria-hidden="true"></div>
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a class="brand" href="#top" aria-label="Suyash Tiwari home">
+          <span class="brand-mark">ST</span><span class="brand-name">Suyash Tiwari<span style="color:var(--site-primary)">.</span></span>
+        </a>
+        <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+          <a href="#about">About</a><a href="#skills">Skills</a><a href="#education">Education</a><a href="#projects">Projects</a><a href="#contact">Contact</a>
+        </nav>
+        <a class="nav-cta" href="#contact">Let’s talk <span aria-hidden="true">↗</span></a>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="navLinks"><span aria-hidden="true">☰</span> Menu</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="container hero" aria-labelledby="heroTitle">
+        <div class="hero-text">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> Student · Aspiring Developer</div>
+          <h1 id="heroTitle">Turning ideas into <span class="highlight">useful</span> digital experiences.</h1>
+          <p class="hero-copy">Hi, I’m <strong>Suyash Tiwari</strong>. I’m learning to build clean, accessible websites and useful applications. I enjoy solving problems, trying new tools, and turning what I learn into real projects.</p>
+          <div class="hero-actions">
+            <a class="button-primary" href="#projects">Explore my work <span aria-hidden="true">↗</span></a>
+            <a class="button-secondary" href="#about"><span aria-hidden="true">↓</span> More about me</a>
+          </div>
+          <div class="micro-note"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></svg> Focused on learning, building, and improving every day.</div>
+        </div>
+        <div class="hero-visual">
+          <div class="portrait-frame">
+            <img alt="Illustrated profile placeholder; replace this with your own photo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 450'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%23E4EEDB'/%3E%3Cstop offset='1' stop-color='%23B9D1BE'/%3E%3C/linearGradient%3E%3ClinearGradient id='shirt' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%232A7055'/%3E%3Cstop offset='1' stop-color='%23183F32'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='420' height='450' rx='22' fill='url(%23bg)'/%3E%3Ccircle cx='338' cy='80' r='42' fill='%23D7F36A' opacity='.8'/%3E%3Cpath d='M0 360 Q100 290 210 355 T420 333 V450 H0Z' fill='%23A9C5AE'/%3E%3Cpath d='M73 450 Q81 335 155 312 L210 340 264 312 Q339 337 349 450Z' fill='url(%23shirt)'/%3E%3Cpath d='M163 271 L165 326 Q210 362 255 326 L257 271Z' fill='%23D9A67D'/%3E%3Cellipse cx='210' cy='193' rx='86' ry='104' fill='%23C98F67'/%3E%3Cpath d='M124 194 Q110 115 155 89 Q209 52 261 88 Q302 118 296 186 L276 148 Q236 164 194 138 Q161 169 126 165Z' fill='%232A2824'/%3E%3Cpath d='M126 194 Q115 225 141 267 L125 270 Q101 223 111 185Z' fill='%232A2824'/%3E%3Cpath d='M292 187 Q312 221 282 267 L298 268 Q323 216 306 180Z' fill='%232A2824'/%3E%3Ccircle cx='177' cy='197' r='5' fill='%232B2B28'/%3E%3Ccircle cx='243' cy='197' r='5' fill='%232B2B28'/%3E%3Cpath d='M192 231 Q210 240 228 230' fill='none' stroke='%237A4132' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M143 180 Q164 169 187 179 M232 179 Q255 168 276 181' fill='none' stroke='%232A2824' stroke-width='7' stroke-linecap='round'/%3E%3Cpath d='M170 314 L210 351 250 314 263 327 210 380 157 327Z' fill='%23F1F3E8'/%3E%3Crect x='16' y='16' width='388' height='418' rx='18' fill='none' stroke='%23FFFFFF' stroke-opacity='.58' stroke-width='2'/%3E%3C/svg%3E">
+          </div>
+          <div class="floating-card top"><span class="float-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m8 17-5-5 5-5M16 7l5 5-5 5M14 4l-4 16"/></svg></span><span><span class="float-label">Currently learning</span><br><span class="float-value">Web Development</span></span></div>
+          <div class="floating-card bottom"><span class="float-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg></span><span><span class="float-label">My approach</span><br><span class="float-value">Keep improving</span></span></div>
+        </div>
+      </section>
+
+      <div class="stats-strip" aria-label="Portfolio highlights">
+        <div class="container stats">
+          <div class="stat"><div class="stat-value">01+</div><div class="stat-label">Years of learning</div></div>
+          <div class="stat"><div class="stat-value">03</div><div class="stat-label">Sample projects</div></div>
+          <div class="stat"><div class="stat-value">Always</div><div class="stat-label">Curious mindset</div></div>
+        </div>
+      </div>
+
+      <section class="container content-section" id="about" aria-labelledby="aboutTitle">
+        <div class="section-head">
+          <div><div class="section-kicker">A little about me</div><h2 id="aboutTitle">Curious by nature.<br>Builder by practice.</h2></div>
+          <p class="section-description">I believe the best way to learn technology is to build things, make mistakes, and keep asking questions.</p>
+        </div>
+        <div class="about-grid">
+          <div class="about-note"><div class="quote-mark" aria-hidden="true">“</div><h3>My goal is to make technology useful.</h3><p>I’m building a strong foundation in programming and web development. I like breaking big problems into small steps, learning from feedback, and creating projects that solve everyday needs.</p></div>
+          <div class="about-details">
+            <article class="detail-card"><div class="detail-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m8 17-5-5 5-5M16 7l5 5-5 5M14 4l-4 16"/></svg></div><h3>Development</h3><p>Practising front-end fundamentals and building small applications.</p></article>
+            <article class="detail-card"><div class="detail-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h3>Consistency</h3><p>Making time to learn a little, practise, and improve each day.</p></article>
+            <article class="detail-card"><div class="detail-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 20V10M18 20V4M6 20v-5"/></svg></div><h3>Problem solving</h3><p>Learning how to turn an idea into clear, manageable steps.</p></article>
+            <article class="detail-card"><div class="detail-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M10 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM20 8v6M23 11h-6"/></svg></div><h3>Teamwork</h3><p>Listening to ideas, sharing knowledge, and learning together.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section skills-section" id="skills" aria-labelledby="skillsTitle">
+        <div class="container">
+        <div class="section-head"><div><div class="section-kicker">What I work with</div><h2 id="skillsTitle">Skills I’m growing.</h2></div><p class="section-description">Technologies and concepts I’m learning or practising as I build my development skills.</p></div>
+          <div class="skills-grid">
+            <div class="skill-card"><span class="skill-mark">HTML</span><span><span class="skill-name">HTML</span><br><span class="skill-level">Web structure</span></span></div>
+            <div class="skill-card"><span class="skill-mark">CSS</span><span><span class="skill-name">CSS</span><br><span class="skill-level">Styling and layout</span></span></div>
+            <div class="skill-card"><span class="skill-mark">JS</span><span><span class="skill-name">JavaScript</span><br><span class="skill-level">Programming</span></span></div>
+            <div class="skill-card"><span class="skill-mark">Node</span><span><span class="skill-name">Node.js</span><br><span class="skill-level">Backend development</span></span></div>
+            <div class="skill-card"><span class="skill-mark">DB</span><span><span class="skill-name">MongoDB</span><br><span class="skill-level">Database</span></span></div>
+            <div class="skill-card"><span class="skill-mark">Ex</span><span><span class="skill-name">Express.js</span><br><span class="skill-level">Backend framework</span></span></div>
+            <div class="skill-card"><span class="skill-mark">DSA</span><span><span class="skill-name">DSA</span><br><span class="skill-level">Data structures & algorithms</span></span></div>
+            <div class="skill-card"><span class="skill-mark">API</span><span><span class="skill-name">REST APIs</span><br><span class="skill-level">API fundamentals</span></span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="container content-section" id="education" aria-labelledby="educationTitle">
+        <div class="section-head"><div><div class="section-kicker">My learning journey</div><h2 id="educationTitle">Education & learning.</h2></div><p class="section-description">My B.Tech studies at Vivekananda Global University, with an expected completion year of 2029.</p></div>
+        <div class="education-grid">
+          <article class="education-card"><div class="education-icon"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m2 9 10-5 10 5-10 5-10-5Z"/><path d="M6 11v5c4 3 8 3 12 0v-5M22 9v6"/></svg></div><div><h3>B.Tech</h3><p>Vivekananda Global University</p><p>Degree programme</p></div><span class="year-pill">2025–2029</span></article>
+        </div>
+      </section>
+
+      <section class="content-section skills-section" id="projects" aria-labelledby="projectsTitle">
+        <div class="container">
+          <div class="section-head"><div><div class="section-kicker">Selected work</div><h2 id="projectsTitle">Things I’ve been building.</h2></div><p class="section-description">These are starter examples. Replace the descriptions with your real projects and add links to your GitHub repositories or live demos.</p></div>
+          <div class="projects-grid">
+            <article class="project-card"><div class="project-art"><div class="mock-window"><div class="mock-top"><span></span><span></span><span></span></div><div class="mock-line"></div><div class="mock-line short"></div><div class="mock-blocks"><span></span><span></span><span></span></div></div></div><div class="project-content"><div class="project-type">Web Application</div><h3>Task Planner</h3><p>A simple task manager concept to organize everyday activities, track progress, and practise interactive user interfaces.</p><div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div></div></article>
+            <article class="project-card"><div class="project-art two"><div class="mock-window"><div class="mock-top"><span></span><span></span><span></span></div><div class="mock-line short"></div><div class="mock-line"></div><div class="mock-blocks"><span></span><span></span><span></span></div></div></div><div class="project-content"><div class="project-type">Backend Project</div><h3>Employee Manager</h3><p>A practice project for organizing employee records and learning CRUD operations with a database-backed API.</p><div class="tags"><span class="tag">Node.js</span><span class="tag">Express</span><span class="tag">MongoDB</span></div></div></article>
+            <article class="project-card"><div class="project-art three"><div class="mock-window"><div class="mock-top"><span></span><span></span><span></span></div><div class="mock-line"></div><div class="mock-line short"></div><div class="mock-blocks"><span></span><span></span><span></span></div></div></div><div class="project-content"><div class="project-type">Personal Website</div><h3>Portfolio Website</h3><p>A responsive place to present my skills, education, projects, and contact details in one easy-to-navigate website.</p><div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Responsive Design</span></div></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="container content-section" id="contact" aria-labelledby="contactTitle">
+        <div class="contact-wrap">
+          <div class="contact-copy"><div class="section-kicker">Get in touch</div><h2 id="contactTitle" style="margin-bottom:20px">Let’s make something useful.</h2><p>Have a project idea, an opportunity, or just want to say hello? Send a message using the form. Replace the sample contact details with your own before publishing.</p><div class="contact-detail"><span class="detail-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><span>your.email@example.com</span></div><div class="contact-detail"><span class="detail-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 6v-3.9a3.4 3.4 0 0 0-1-2.6c3.3-.4 6.8-1.6 6.8-7A5.4 5.4 0 0 0 19.3 4 5 5 0 0 0 19.2.5S18 .1 15 2.1a13.5 13.5 0 0 0-7 0C5 0.1 3.8.5 3.8.5A5 5 0 0 0 3.7 4 5.4 5.4 0 0 0 2.2 7.5c0 5.4 3.5 6.6 6.8 7a3.4 3.4 0 0 0-1 2.6V22"/></svg></span><span>github.com/your-username</span></div></div>
+          <form class="contact-form" id="contactForm">
+            <div class="field"><label for="fullName">Your name</label><input id="fullName" name="fullName" autocomplete="name" placeholder="e.g. Alex Sharma" required></div>
+            <div class="field"><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required></div>
+            <div class="field full"><label for="subject">Subject</label><input id="subject" name="subject" placeholder="What would you like to discuss?" required></div>
+            <div class="field full"><label for="message">Message</label><textarea id="message" name="message" placeholder="Write your message here..." required></textarea></div>
+            <div class="form-status" id="formStatus" role="status" aria-live="polite">Thanks! This demo form is working on the page, but it does not send an email yet.</div>
+            <button class="button-primary" type="submit">Send message <span aria-hidden="true">↗</span></button>
+            <p class="form-footnote">Demo only: connect a form service or backend to receive real messages.</p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer><div class="container footer-inner"><span>© <span id="currentYear"></span> Suyash Tiwari. Made with care.</span><div class="footer-links"><a href="#top">Back to top ↑</a><a href="#projects">Projects</a><a href="#contact">Contact</a></div></div></footer>
+  </div>
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    menuToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+      menuToggle.querySelector('span').textContent = isOpen ? '✕' : '☰';
+    });
+    navLinks.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.querySelector('span').textContent = '☰';
+      });
+    });
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    document.getElementById('contactForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const status = document.getElementById('formStatus');
+      status.classList.add('visible');
+      status.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  </script>
+</body>
+</html>
